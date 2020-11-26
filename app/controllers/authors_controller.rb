@@ -2,11 +2,13 @@ class AuthorsController < ApplicationController
   before_action :find_author, only: :show
   def index
     @authors = Author.all
-    render json: @authors
+    options = { include: [:articles]}
+    render json: AuthorSerializer.new(@authors, options).serializable_hash
   end
 
   def show
-    render json: @author
+    options = { include: [:articles]}
+    render json: AuthorSerializer(@author, options).serializable_hash
   end
 
   private
